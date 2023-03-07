@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RHWebApp.Data;
 using RHWebApp.Models;
+using RHWebApp.Repository;
 
 namespace RHWebApp.Controllers
 {
@@ -200,6 +201,28 @@ namespace RHWebApp.Controllers
         private bool EmployeesExists(int id)
         {
             return _context.Employees.Any(e => e.Id == id);
+        }
+
+        // GET: Employess/PaymentConcepts    
+        public async Task<IActionResult> PaymentConcepts(int? id)
+        {
+            if (id == null || _context.Employees == null)
+            {
+                return NotFound();
+            }
+
+            var employees = await _context.Employees
+                .Include(e => e.EmployeeRole)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (employees == null)
+            {
+                return NotFound();
+            }
+
+            PaymentConceptsAccessData PayementAD = new PaymentConceptsAccessData();
+            ModelState.Clear();
+            employees.PaymentConcepts = PayementAD.GetByEmployeeId(1);
+            return View(employees);
         }
     }
 }

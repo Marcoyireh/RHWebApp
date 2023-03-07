@@ -12,6 +12,7 @@ namespace RHWebApp.Models
         [ForeignKey("RoleId")]
         public virtual EmployeeRole? EmployeeRole { get; set; }
         public virtual ICollection<Deliveries>? Deliveries { get; set; }
+        public virtual ICollection<PaymentConcepts>? PaymentConcepts { get; set; }
 
     }
 

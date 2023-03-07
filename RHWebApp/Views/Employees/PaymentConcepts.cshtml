@@ -1,0 +1,66 @@
+﻿@model RHWebApp.Models.Employees
+
+@{
+    ViewData["Title"] = "Salary";
+}
+<div>
+    <h4>Payment Concepts</h4>
+    <hr />
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                EmployeeId
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Concept
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Operation
+            </th>
+            <th>
+                RoleDescription
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PaymentConcepts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Concept)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Operation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleDescription)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Edit" >Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
