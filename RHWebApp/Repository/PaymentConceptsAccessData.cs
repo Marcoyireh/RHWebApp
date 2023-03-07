@@ -5,19 +5,42 @@ using System.Data;
 using System.Data.SqlClient;
 using RHWebApp;
 using RHWebApp.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace RHWebApp.Repository
 {
     public class PaymentConceptsAccessData
     {
         private SqlConnection con;
-          
+
+
+        private readonly IConfiguration _configuration;
+
+        //public PaymentConceptsAccessData(IConfiguration configuration)
+        //{
+        //    _configuration = configuration;
+        //}
+
         private void connection()
         {
-            string conecctionString = "Data Source=localhost;Initial Catalog=RHWeb;Integrated Security=True;Connect Timeout=30;";
-            con = new SqlConnection(conecctionString);
+            var builder = new ConfigurationBuilder()
+                      .SetBasePath(Directory.GetCurrentDirectory())
+                      .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
+            IConfiguration _configuration = builder.Build();
+            var connetctionString = _configuration.GetConnectionString("RH").ToString();
+
+            //var connetctionString = _configuration.GetSection("ConnectionStrings").GetSection("RHWebAppContext").Value.ToString();
+            //string conecctionString = "Data Source=localhost;Initial Catalog=RHWeb;Integrated Security=True;Connect Timeout=30;";
+            con = new SqlConnection(connetctionString);
 
         }
+
+
+
+
+
+
 
         public List<PaymentConcepts> GetByEmployeeId(int EmployeeId)
         {

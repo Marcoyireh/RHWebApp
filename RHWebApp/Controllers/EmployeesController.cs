@@ -204,7 +204,7 @@ namespace RHWebApp.Controllers
         }
 
         // GET: Employess/PaymentConcepts    
-        public async Task<IActionResult> PaymentConcepts(int? id)
+        public async Task<IActionResult> PaymentConcepts(int id)
         {
             if (id == null || _context.Employees == null)
             {
@@ -221,7 +221,7 @@ namespace RHWebApp.Controllers
 
             PaymentConceptsAccessData PayementAD = new PaymentConceptsAccessData();
             ModelState.Clear();
-            employees.PaymentConcepts = PayementAD.GetByEmployeeId(1);
+            employees.PaymentConcepts = PayementAD.GetByEmployeeId(id);
             return View(employees);
         }
     }
