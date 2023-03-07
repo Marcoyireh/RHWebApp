@@ -48,7 +48,7 @@ namespace RHWebApp.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "id", "Description");
+            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "Id", "Description");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace RHWebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "id", "Description", employees.RoleId);
+            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "Id", "Description", employees.RoleId);
             return View(employees);
         }
 
@@ -82,7 +82,7 @@ namespace RHWebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "id", "Description", employees.RoleId);
+            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "Id", "Description", employees.RoleId);
             return View(employees);
         }
 
@@ -118,9 +118,46 @@ namespace RHWebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "id", "Description", employees.RoleId);
+            ViewData["RoleId"] = new SelectList(_context.Set<EmployeeRole>(), "Id", "Description", employees.RoleId);
             return View(employees);
         }
+
+
+        // GET: Employees/Deliveries/5
+        public async Task<IActionResult> Deliveries(int? id)
+        {
+            if (id == null || _context.Employees == null)
+            {
+                return NotFound();
+            }
+
+            var employees = await _context.Employees.FindAsync(id);
+            if (employees == null)
+            {
+                return NotFound();
+            }
+
+            var DeliverieP = new Deliveries { EmployeId = employees.Id, Month = 0, NumDeliveries = 0 };
+            return View(DeliverieP);
+        }
+
+        //POST: Employees/Deliveries/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Deliveries(int id, [Bind("EmplyeeId,Month,NumDeliveries")] Deliveries deliveries)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(deliveries);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            
+            return View(deliveries);
+        }
+
 
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)

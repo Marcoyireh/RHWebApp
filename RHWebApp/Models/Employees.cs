@@ -11,6 +11,7 @@ namespace RHWebApp.Models
         public int RoleId { get; set; }
         [ForeignKey("RoleId")]
         public virtual EmployeeRole? EmployeeRole { get; set; }
+        public virtual ICollection<Deliveries>? Deliveries { get; set; }
 
     }
 
@@ -20,8 +21,17 @@ namespace RHWebApp.Models
         {
             this.EmployeesList = new HashSet<Employees>();
         }
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
         public virtual ICollection<Employees> EmployeesList { get; set; }
     }
+
+    public class Deliveries
+    {
+        public int DeliveriesId { get; set; }
+        public int EmployeId { get; set; }
+        public int Month { get; set; }
+        public int NumDeliveries { get; set; }
+    }
+
 }
